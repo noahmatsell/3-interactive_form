@@ -8,6 +8,7 @@ var designSelect = document.querySelector('#design');
 var activitiesChecklist = document.querySelector('.activities').getElementsByTagName('label');
 var otherTitle = document.querySelector('#other-title');
 var titleSelect = document.querySelector('#title');
+var paymentSelect = document.querySelector('#payment');
 
 /* ================================= 
 Setup on-load
@@ -25,6 +26,8 @@ var totalSection = document.createElement('div');
 totalSection.className = 'total';
 totalSection.innerHTML = '<p>Total: $'+totalCost+'</p>';
 document.querySelector('fieldset.activities').append(totalSection);
+//Credit card selected by default
+paymentSelect.value = "credit card";
 
 /* ================================= 
 Functions
@@ -135,6 +138,20 @@ var reserveTimeslot = function(currentCheckbox){
   }
 };
 
+var paymentSelectHandler = function(){
+  
+  //Determine option value
+  var currentPaymentValue = paymentSelect.value;
+  console.log("Current payment:"+currentPaymentValue);
+  //hide current section
+  if (currentPaymentValue == "credit card"){
+    document.querySelector("#credit-card").classList.remove("is-hidden");
+  } else{
+    document.querySelector("#credit-card").classList.add("is-hidden");
+  }
+  //display corresponding current section
+}
+
 /* ================================= 
 Event listeners
 ==================================== */
@@ -160,15 +177,17 @@ titleSelect.addEventListener("change", function (){
   }
 );
 
-//Credit card selected by default
-//When payment option is changed
-  //Determine option value
-  //hide current section
-  //display corresponding current section
+//Event listner for payment option is changed
+paymentSelect.addEventListener("change", function(){
+  paymentSelectHandler();
+});
+  
 
 //Form Validation
   //Name field can't be blank
+  document.querySelector("#name").addEventListener("keyup", function(){});
   //Email field must have @ . etc
+  document.querySelector("#name").addEventListener("keyup", function(){});
   //Must select at least one checkbox under the "Register for Activities" section
   //If the selected payment option is "Credit Card:
       //confirm card number (13-16 digit)
