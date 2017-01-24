@@ -161,6 +161,14 @@ var nameValidator = function(){
     return true;
   }
 };
+
+var checkForBlanks = function(){
+  var blank = false;
+  //if name blank, set blank to true and show error
+  //if email blank, set blank to true and show error
+  //if register blank, set blank to true and show error
+  //if credit card selected and blank, set blank to true and show error
+};
 /* ================================= 
 Event listeners
 ==================================== */
@@ -194,10 +202,11 @@ paymentSelect.addEventListener("change", function(){
 
 //Form Validation
 //on submit
-document.addEventListener("submit", function(){
-  //prevent default if name field blank
-  //prevent default if email invalid
-  //prevent default if no checkbox
+document.addEventListener("submit", function(e){
+  var blank = checkForBlanks();
+  if(blank){
+    e.preventDefault();
+  }
 });
   //Name field can't be blank
   document.querySelector("#name").addEventListener("keyup", function(){
