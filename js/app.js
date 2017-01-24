@@ -149,9 +149,18 @@ var paymentSelectHandler = function(){
   } else{
     document.querySelector("#credit-card").classList.add("is-hidden");
   }
-  //display corresponding current section
 }
 
+var nameValidator = function(){
+  var value = document.querySelector("#name").value
+  if(value == ""){
+    console.log("Name blank")
+    return false;
+  }else{
+    console.log("Name not blank")
+    return true;
+  }
+};
 /* ================================= 
 Event listeners
 ==================================== */
@@ -184,8 +193,16 @@ paymentSelect.addEventListener("change", function(){
   
 
 //Form Validation
+//on submit
+document.addEventListener("submit", function(){
+  //prevent default if name field blank
+  //prevent default if email invalid
+  //prevent default if no checkbox
+});
   //Name field can't be blank
-  document.querySelector("#name").addEventListener("keyup", function(){});
+  document.querySelector("#name").addEventListener("keyup", function(){
+    nameValidator();
+  });
   //Email field must have @ . etc
   document.querySelector("#name").addEventListener("keyup", function(){});
   //Must select at least one checkbox under the "Register for Activities" section
