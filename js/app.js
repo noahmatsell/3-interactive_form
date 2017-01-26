@@ -10,24 +10,6 @@ var otherTitle = document.querySelector('#other-title');
 var titleSelect = document.querySelector('#title');
 var paymentSelect = document.querySelector('#payment');
 
-/* ================================= 
-Setup on-load
-==================================== */
-//focus on first field
-window.onload = function(){
- document.querySelector('form').getElementsByTagName('input')[0].focus(); 
-}
-//hide color dropdown until design is chosen
-colorSection.classList.add('is-hidden');
-//Hide 'other' field
-otherTitle.classList.add("is-hidden");
-//create total section
-var totalSection = document.createElement('div');
-totalSection.className = 'total';
-totalSection.innerHTML = '<p>Total: $'+totalCost+'</p>';
-document.querySelector('fieldset.activities').append(totalSection);
-//Credit card selected by default
-paymentSelect.value = "credit card";
 
 /* ================================= 
 Functions
@@ -143,12 +125,28 @@ var paymentSelectHandler = function(){
   //Determine option value
   var currentPaymentValue = paymentSelect.value;
   console.log("Current payment:"+currentPaymentValue);
-  //hide current section
+  //cc
   if (currentPaymentValue == "credit card"){
     document.querySelector("#credit-card").classList.remove("is-hidden");
+    document.getElementsByTagName('form')[0].action = "submit.php"
   } else{
     document.querySelector("#credit-card").classList.add("is-hidden");
   }
+  //paypal
+  if (currentPaymentValue == "paypal") {
+    document.querySelector("#paypal").classList.remove("is-hidden");
+    document.getElementsByTagName('form')[0].action = "https://www.paypal.com/"
+  } else{
+    document.querySelector("#paypal").classList.add("is-hidden");
+  }
+    //bitcoin
+  if (currentPaymentValue == "bitcoin") {
+    document.querySelector("#bitcoin").classList.remove("is-hidden");
+    document.getElementsByTagName('form')[0].action = "https://www.bitcoin.com/"
+  } else{
+    document.querySelector("#bitcoin").classList.add("is-hidden");
+  }
+
 }
 
 var nameValidator = function(){
@@ -198,6 +196,103 @@ var checkForBlanks = function(){
   //if credit card selected and blank, set blank to true and show error
   return blank;
 };
+
+var emailValidation = function() {
+    var emailInput = document.getElementById('mail');
+    var value = 0;
+    if (emailInput.value === "") {
+      emailInput.placeholder = 'Please enter your email address.';
+      emailInput.style.border = "3px solid red";
+      value = 1;
+    } else if (!emailInput.value.includes('@') || !emailInput.value.includes('.')) {
+      emailInput.style.border = "3px solid red";
+      emailInput.value = '';
+      emailInput.placeholder = 'Please enter a valid email address.';
+      value = 1;
+    } else {
+      emailInput.style.border = "3px solid green";
+      emailInput.placeholder = '';
+    }
+    return value;
+  };
+
+  var ccValidation = function() {
+    var creditCardNumber = document.getElementById('cc-num');
+    var blank = true;
+    if (creditCardNumber.value === '') {
+      blank = true;
+      creditCardNumber.classList.add('blank_error');
+    } else if (isNaN(parseFloat(creditCardNumber.value))) {
+      
+    } else if (creditCardNumber.value.length < 13 || creditCardNumber.value.length > 16) {
+      
+    } else {
+      blank = false;
+    }
+    return value;
+  };
+
+  var zipcodeValidation = function() {
+    var zip = document.getElementById('zip');
+
+    if (zip.value === '') {
+
+    } else if (isNaN(parseFloat(zip.value))) {
+
+    } else if (isNaN(parseFloat(zip.value)) === false && zip.value.length !== 5) {
+
+    } else {
+ 
+    }
+  };
+
+  var cvvValidation = function() {
+    var cvv = document.getElementById('cvv');
+    var value = 0;
+    if (cvv.value === '') {
+      
+    } else if (isNaN(parseFloat(cvv.value))) {
+
+    } else if (cvv.value.length !== 3) {
+
+    } else {
+
+    }
+  };
+
+  var tshirtValidation = function() {
+  
+    if (designSelect.children[0].selected) {
+      
+    } else{
+
+    }
+  };
+  
+        var validationOtherJobRole = function() {
+          var blank = true;
+          var otherJobInput = document.getElementById('other-title');
+          if (otherJobInput.value === '') {
+            otherJobInput.placeholder = 'Please enter your job title.';
+            otherJobInput.style.border = '3px solid red';
+            
+          } else{
+            blank = false;
+          }
+          return blank;
+        };
+
+        var realTimeEmailValidation = function() {
+          var emailInput = document.getElementById('mail');
+          var emailError = document.getElementById('email-error');
+          if (!emailInput.value.includes('@') || !emailInput.value.includes('.')) {
+            
+          } else {
+        
+          }
+        };
+
+
 /* ================================= 
 Event listeners
 ==================================== */
@@ -252,3 +347,23 @@ document.addEventListener("submit", function(e){
     //border
     //show message
     //realtime
+
+/* ================================= 
+Setup on-load
+==================================== */
+//focus on first field
+window.onload = function(){
+ document.querySelector('form').getElementsByTagName('input')[0].focus(); 
+}
+//hide color dropdown until design is chosen
+colorSection.classList.add('is-hidden');
+//Hide 'other' field
+otherTitle.classList.add("is-hidden");
+//create total section
+var totalSection = document.createElement('div');
+totalSection.className = 'total';
+totalSection.innerHTML = '<p>Total: $'+totalCost+'</p>';
+document.querySelector('fieldset.activities').append(totalSection);
+//Credit card selected by default
+paymentSelect.value = "credit card";
+paymentSelectHandler();
