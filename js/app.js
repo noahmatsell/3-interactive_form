@@ -163,11 +163,40 @@ var nameValidator = function(){
 };
 
 var checkForBlanks = function(){
+  console.log("checking for blanks");
   var blank = false;
   //if name blank, set blank to true and show error
+  var name = document.querySelector('#name');
+  if (name.value == ""){
+    blank = true;
+    name.classList.add("blank_error");
+  }
   //if email blank, set blank to true and show error
+  var email = document.querySelector('#mail');
+  if (email.value == ""){
+    blank = true;
+    email.classList.add("blank_error");
+  }
   //if register blank, set blank to true and show error
+  var regOptions = document.querySelector(".activities").querySelectorAll("label");
+  var regBlank = false;
+  //loop through all inputs
+  for(var i=0;i<regOptions.length;i++){
+    var inputChecked = regOptions[0].querySelector("input").checked
+    if (inputChecked){
+      regBlank = false;
+      break;
+    }
+    else{
+      regBlank = true;
+    }
+  }
+  if (regBlank){
+    blank = true;
+    document.querySelector(".activities").classList.add("blank_error");
+  }
   //if credit card selected and blank, set blank to true and show error
+  return blank;
 };
 /* ================================= 
 Event listeners

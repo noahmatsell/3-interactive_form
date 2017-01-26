@@ -157,6 +157,14 @@ select{
   clear: both;
 }
 
+.blank_error{
+	border: 2px solid red;
+}
+.blank_error::after{
+	content: "This option cannot be blank!";
+  display: table;
+  clear: both;
+}
 /* ================================= 
   Media Queries
 ==================================== */
