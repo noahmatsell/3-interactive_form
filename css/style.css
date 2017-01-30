@@ -157,13 +157,13 @@ select{
   clear: both;
 }
 
-.blank_error{
-	border: 2px solid red;
+.error, .inline-error{
+	border: 2px solid red !important;
 }
-.blank_error::after{
-	content: "This option cannot be blank!";
-  display: table;
-  clear: both;
+.errormsg{
+  color: red;
+  font-size: 0.6em;
+  margin-top: -1.5em;
 }
 /* ================================= 
   Media Queries

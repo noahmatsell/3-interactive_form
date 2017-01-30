@@ -9,14 +9,20 @@ var activitiesChecklist = document.querySelector('.activities').getElementsByTag
 var otherTitle = document.querySelector('#other-title');
 var titleSelect = document.querySelector('#title');
 var paymentSelect = document.querySelector('#payment');
-
-
+//errors
+var emailError = "<div class='errormsg'>Enter valid email with @ and .</div>";
+var creditError = "<div class='errormsg'>Please enter a number that is at least 16 digits long</div>";
+var zipcodeError = "<div class='errormsg'>Zipcode must be 5 digits</div>";
+var cvvError = "<div class='errormsg'>CVV must be 3 digits</div>";
+var blankError = "<div class='errormsg'>Cannot be blank</div>";
 /* ================================= 
 Functions
 ==================================== */
+//Update total cost
 var calculateCost = function(){
   totalSection.innerHTML = '<p>Total: $'+totalCost+'</p>';
 };
+//Design selection handler
 var designSelectHandler = function(){
   colorSection.classList.remove('is-hidden');
    //Determine design selected
@@ -45,83 +51,90 @@ var designSelectHandler = function(){
   
 //Function to reserve or free up timeslot
 var reserveTimeslot = function(currentCheckbox){
+  
+  var fieldset = document.querySelector(".activities");
+  fieldset.classList.remove("error");
+  if(fieldset.nextSibling.classList && fieldset.nextSibling.classList.contains("errormsg")){
+    fieldset.parentNode.removeChild(fieldset.nextSibling);  
+  }
+  
   var itemName = currentCheckbox.name;
   var checked = currentCheckbox.checked;
   if(checked){
-      switch(itemName){
-        case "all":
-        totalCost += 200;
-        calculateCost();
-        break;
-        case "js-frameworks":
-        document.querySelector("input[name='express']").disabled = true;
-        totalCost += 100;
-        calculateCost();
-        break;
-        case "js-libs":
-        document.querySelector("input[name='node']").disabled = true;
-        totalCost += 100;
-        calculateCost();
-        break;
-        case "express": 
-        document.querySelector("input[name='js-frameworks']").disabled = true;
-        totalCost += 100;
-        calculateCost();
-        break;
-        case "node": 
-        document.querySelector("input[name='js-libs']").disabled = true;
-        totalCost += 100;
-        calculateCost();
-        break;
-        case "build-tools": 
-        totalCost += 100;
-        calculateCost();
-        break;
-        case "npm":
-        totalCost += 100;
-        calculateCost();
-        break;
-      }
+    switch(itemName){
+      case "all":
+      totalCost += 200;
+      calculateCost();
+      break;
+      case "js-frameworks":
+      document.querySelector("input[name='express']").disabled = true;
+      totalCost += 100;
+      calculateCost();
+      break;
+      case "js-libs":
+      document.querySelector("input[name='node']").disabled = true;
+      totalCost += 100;
+      calculateCost();
+      break;
+      case "express": 
+      document.querySelector("input[name='js-frameworks']").disabled = true;
+      totalCost += 100;
+      calculateCost();
+      break;
+      case "node": 
+      document.querySelector("input[name='js-libs']").disabled = true;
+      totalCost += 100;
+      calculateCost();
+      break;
+      case "build-tools": 
+      totalCost += 100;
+      calculateCost();
+      break;
+      case "npm":
+      totalCost += 100;
+      calculateCost();
+      break;
+    }
   }else{
     switch(itemName){
-        case "all":
-        totalCost -= 200;
-        calculateCost();
-        break;
-        case "js-frameworks":
-        document.querySelector("input[name='express']").disabled = false;
-        totalCost -= 100;
-        calculateCost();
-        break;
-        case "js-libs":
-        document.querySelector("input[name='node']").disabled = false;
-        totalCost -= 100;
-        calculateCost();
-        break;
-        case "express": 
-        document.querySelector("input[name='js-frameworks']").disabled = false;
-        totalCost -= 100;
-        calculateCost();
-        break;
-        case "node": 
-        document.querySelector("input[name='js-libs']").disabled = false;
-        totalCost -= 100;
-        calculateCost();
-        break;
-        case "build-tools": 
-        totalCost -= 100;
-        calculateCost();
-        break;
-        case "npm":
-        totalCost -= 100;
-        calculateCost();
-        break;
-      }
+      case "all":
+      totalCost -= 200;
+      calculateCost();
+      break;
+      case "js-frameworks":
+      document.querySelector("input[name='express']").disabled = false;
+      totalCost -= 100;
+      calculateCost();
+      break;
+      case "js-libs":
+      document.querySelector("input[name='node']").disabled = false;
+      totalCost -= 100;
+      calculateCost();
+      break;
+      case "express": 
+      document.querySelector("input[name='js-frameworks']").disabled = false;
+      totalCost -= 100;
+      calculateCost();
+      break;
+      case "node": 
+      document.querySelector("input[name='js-libs']").disabled = false;
+      totalCost -= 100;
+      calculateCost();
+      break;
+      case "build-tools": 
+      totalCost -= 100;
+      calculateCost();
+      break;
+      case "npm":
+      totalCost -= 100;
+      calculateCost();
+      break;
+    }
   }
 };
 
+//Show correct payment option
 var paymentSelectHandler = function(){
-  
   //Determine option value
   var currentPaymentValue = paymentSelect.value;
   console.log("Current payment:"+currentPaymentValue);
@@ -146,20 +159,8 @@ var paymentSelectHandler = function(){
   } else{
     document.querySelector("#bitcoin").classList.add("is-hidden");
   }
-
 }
-
-var nameValidator = function(){
-  var value = document.querySelector("#name").value
-  if(value == ""){
-    console.log("Name blank")
-    return false;
-  }else{
-    console.log("Name not blank")
-    return true;
-  }
-};
-
+//check if required fields are blank
 var checkForBlanks = function(){
   console.log("checking for blanks");
   var blank = false;
@@ -167,13 +168,15 @@ var checkForBlanks = function(){
   var name = document.querySelector('#name');
   if (name.value == ""){
     blank = true;
-    name.classList.add("blank_error");
+    name.classList.add("error");
+    name.insertAdjacentHTML('afterend', blankError);
   }
   //if email blank, set blank to true and show error
   var email = document.querySelector('#mail');
   if (email.value == ""){
     blank = true;
-    email.classList.add("blank_error");
+    email.classList.add("error");
+    email.insertAdjacentHTML('afterend', blankError);
   }
   //if register blank, set blank to true and show error
   var regOptions = document.querySelector(".activities").querySelectorAll("label");
@@ -191,108 +194,105 @@ var checkForBlanks = function(){
   }
   if (regBlank){
     blank = true;
-    document.querySelector(".activities").classList.add("blank_error");
+    document.querySelector(".activities").classList.add("error");
+    document.querySelector(".activities").insertAdjacentHTML('afterend', blankError);
   }
   //if credit card selected and blank, set blank to true and show error
+  if (paymentSelect.value == "credit card"){
+    var cc = document.querySelector("#cc-num");
+    if (cc.value == ""){
+      blank = true;
+      cc.classList.add("error");
+      cc.insertAdjacentHTML('afterend', blankError);
+    }
+    var zipcode = document.querySelector("#zip");
+    if (zipcode.value == ""){
+      blank = true;
+      zipcode.classList.add("error");
+      zipcode.insertAdjacentHTML('afterend', blankError);
+    } 
+    var cvv =  document.querySelector("#cvv");
+    if (cvv.value == ""){
+      blank = true;
+      cvv.classList.add("error");
+      cvv.insertAdjacentHTML('afterend', blankError);
+    } 
+  }
   return blank;
-};
-
+}
 var emailValidation = function() {
     var emailInput = document.getElementById('mail');
-    var value = 0;
-    if (emailInput.value === "") {
-      emailInput.placeholder = 'Please enter your email address.';
-      emailInput.style.border = "3px solid red";
-      value = 1;
-    } else if (!emailInput.value.includes('@') || !emailInput.value.includes('.')) {
-      emailInput.style.border = "3px solid red";
-      emailInput.value = '';
-      emailInput.placeholder = 'Please enter a valid email address.';
-      value = 1;
-    } else {
-      emailInput.style.border = "3px solid green";
-      emailInput.placeholder = '';
-    }
-    return value;
-  };
-
-  var ccValidation = function() {
-    var creditCardNumber = document.getElementById('cc-num');
     var blank = true;
-    if (creditCardNumber.value === '') {
-      blank = true;
-      creditCardNumber.classList.add('blank_error');
-    } else if (isNaN(parseFloat(creditCardNumber.value))) {
-      
-    } else if (creditCardNumber.value.length < 13 || creditCardNumber.value.length > 16) {
-      
+    if (emailInput.value === "") {
+      emailInput.classList.add("error");
+      emailInput.insertAdjacentHTML('afterend', blankError);
+      return blank;
+    } else if (!emailInput.value.includes('@') || !emailInput.value.includes('.')) {
+      emailInput.classList.add("error");
+      emailInput.insertAdjacentHTML('afterend', emailError);
+      return blank;
     } else {
       blank = false;
+      return blank;
     }
-    return value;
-  };
-
-  var zipcodeValidation = function() {
-    var zip = document.getElementById('zip');
-
-    if (zip.value === '') {
-
-    } else if (isNaN(parseFloat(zip.value))) {
-
-    } else if (isNaN(parseFloat(zip.value)) === false && zip.value.length !== 5) {
-
-    } else {
- 
-    }
-  };
-
-  var cvvValidation = function() {
-    var cvv = document.getElementById('cvv');
-    var value = 0;
-    if (cvv.value === '') {
-      
-    } else if (isNaN(parseFloat(cvv.value))) {
-
-    } else if (cvv.value.length !== 3) {
-
-    } else {
-
-    }
-  };
-
-  var tshirtValidation = function() {
-  
-    if (designSelect.children[0].selected) {
-      
-    } else{
-
-    }
-  };
-  
-        var validationOtherJobRole = function() {
-          var blank = true;
-          var otherJobInput = document.getElementById('other-title');
-          if (otherJobInput.value === '') {
-            otherJobInput.placeholder = 'Please enter your job title.';
-            otherJobInput.style.border = '3px solid red';
-            
-          } else{
-            blank = false;
-          }
-          return blank;
-        };
-
-        var realTimeEmailValidation = function() {
-          var emailInput = document.getElementById('mail');
-          var emailError = document.getElementById('email-error');
-          if (!emailInput.value.includes('@') || !emailInput.value.includes('.')) {
-            
-          } else {
-        
-          }
-        };
-
-
+}
+var realTimeEmailValidation = function() {
+  var emailInput = document.getElementById('mail');
+  if(
+emailInput.nextSibling.classList && emailInput.nextSibling.classList.contains("errormsg")){
+    emailInput.parentNode.removeChild(emailInput.nextSibling);  
+  }
+  if (!emailInput.value.includes('@') || !emailInput.value.includes('.')) {
+    emailInput.classList.add("inline-error");
+    emailInput.insertAdjacentHTML('afterend', emailError)
+  } else {
+    emailInput.classList.remove("inline-error");
+  }
+};
+var realTimeCcValidation = function(){
+  var cc = document.getElementById('cc-num');
+  if(cc.nextSibling){
+    cc.parentNode.removeChild(cc.nextSibling);  
+  }
+  if (cc.value.length < 13 || cc.value.length > 16) {
+    cc.classList.add("inline-error");
+    cc.insertAdjacentHTML('afterend', creditError)  
+  } else {
+    cc.classList.remove("inline-error");
+  }
+}
+var realTimeZipValidation = function(){
+  var zipcode = document.getElementById('zip');
+  if(zipcode.nextSibling){
+    zipcode.parentNode.removeChild(zipcode.nextSibling);  
+  }
+  if (zipcode.value.length !== 5) {
+    zipcode.classList.add("inline-error");
+    zipcode.insertAdjacentHTML('afterend', zipcodeError)  
+  } else {
+    zipcode.classList.remove("inline-error");
+  }
+}
+var realTimeCvvValidation = function(){
+  var cvv = document.getElementById('cvv');
+  if(cvv.nextSibling){
+    cvv.parentNode.removeChild(cvv.nextSibling);  
+  }
+  if (cvv.value.length !== 3) {
+    cvv.classList.add("inline-error");
+    cvv.insertAdjacentHTML('afterend', cvvError)  
+  } else {
+    cvv.classList.remove("inline-error");
+    
+  }
+}
+//Remove blank error if user types
+var blankCheck = function(field){
+  if(!(field.value === "") && field.classList.contains("error")){
+    field.classList.remove("error");
+    field.parentNode.removeChild(field.nextSibling);
+  }
+}
 /* ================================= 
 Event listeners
 ==================================== */
@@ -317,37 +317,42 @@ titleSelect.addEventListener("change", function (){
     }
   }
 );
-
 //Event listner for payment option is changed
 paymentSelect.addEventListener("change", function(){
   paymentSelectHandler();
 });
-  
-
-//Form Validation
-//on submit
+//Form Validation on submit
 document.addEventListener("submit", function(e){
   var blank = checkForBlanks();
   if(blank){
     e.preventDefault();
+    document.querySelector('.error').scrollIntoView();
   }
 });
-  //Name field can't be blank
-  document.querySelector("#name").addEventListener("keyup", function(){
-    nameValidator();
-  });
-  //Email field must have @ . etc
-  document.querySelector("#name").addEventListener("keyup", function(){});
-  //Must select at least one checkbox under the "Register for Activities" section
-  //If the selected payment option is "Credit Card:
-      //confirm card number (13-16 digit)
-      //zip code (5 digit)
-      //cvv (3 digit)
-  //show error message
-    //border
-    //show message
-    //realtime
-
+//Email field must have @ . etc
+document.querySelector("#name").addEventListener("keyup", function(){
+  blankCheck(this);
+});
+document.querySelector("#mail").addEventListener("keyup", function(){
+ realTimeEmailValidation();
+ blankCheck(this); 
+});
+//If the selected payment option is "Credit Card:
+//confirm card number (13-16 digit)
+ document.querySelector("#cc-num").addEventListener("keyup", function(){
+  realTimeCcValidation();
+  blankCheck(this);
+ });
+//zip code (5 digit)
+ document.querySelector("#zip").addEventListener("keyup", function(){
+  realTimeZipValidation();
+  blankCheck(this);
+ });
+//cvv (3 digit)
+ document.querySelector("#cvv").addEventListener("keyup", function(){
+  realTimeCvvValidation();
+  blankCheck(this);
+ });
 /* ================================= 
 Setup on-load
 ==================================== */
