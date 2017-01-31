@@ -33,7 +33,6 @@ var designSelectHandler = function(){
     allOptions[i].classList.add("is-hidden");
   }
   //show correct colors
-  console.log(designSelectValue);
   if(designSelectValue == "js puns"){
     colorSelector.value = "cornflowerblue";
     document.querySelector('#color option[value="cornflowerblue"]').classList.remove("is-hidden");
@@ -50,8 +49,7 @@ var designSelectHandler = function(){
 };
   
 //Function to reserve or free up timeslot
-var reserveTimeslot = function(currentCheckbox){
-  
+var reserveTimeslot = function(currentCheckbox){  
   var fieldset = document.querySelector(".activities");
   fieldset.classList.remove("error");
   if(fieldset.nextSibling.classList && fieldset.nextSibling.classList.contains("errormsg")){
@@ -137,11 +135,10 @@ var reserveTimeslot = function(currentCheckbox){
 var paymentSelectHandler = function(){
   //Determine option value
   var currentPaymentValue = paymentSelect.value;
-  console.log("Current payment:"+currentPaymentValue);
   //cc
   if (currentPaymentValue == "credit card"){
     document.querySelector("#credit-card").classList.remove("is-hidden");
-    document.getElementsByTagName('form')[0].action = "submit.php"
+    document.getElementsByTagName('form')[0].action = "index.html"
   } else{
     document.querySelector("#credit-card").classList.add("is-hidden");
   }
@@ -162,7 +159,6 @@ var paymentSelectHandler = function(){
 }
 //check if required fields are blank
 var checkForBlanks = function(){
-  console.log("checking for blanks");
   var blank = false;
   //if name blank, set blank to true and show error
   var name = document.querySelector('#name');
@@ -283,7 +279,6 @@ var realTimeCvvValidation = function(){
     cvv.insertAdjacentHTML('afterend', cvvError)  
   } else {
     cvv.classList.remove("inline-error");
-    
   }
 }
 //Remove blank error if user types
@@ -323,10 +318,16 @@ paymentSelect.addEventListener("change", function(){
 });
 //Form Validation on submit
 document.addEventListener("submit", function(e){
+  //check for blank inputs
   var blank = checkForBlanks();
-  if(blank){
+  var inlineErrors = document.getElementsByClassName('inline-error');
+  if(blank || inlineErrors.length > 0){
     e.preventDefault();
-    document.querySelector('.error').scrollIntoView();
+    if(document.querySelector('.error')){
+      document.querySelector('.error').scrollIntoView();
+    }else{
+      document.querySelector('.inline-error').scrollIntoView();
+    }
   }
 });
 //Email field must have @ . etc
