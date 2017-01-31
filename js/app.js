@@ -138,38 +138,38 @@ var paymentSelectHandler = function(){
   //cc
   if (currentPaymentValue == "credit card"){
     document.querySelector("#credit-card").classList.remove("is-hidden");
-    document.getElementsByTagName('form')[0].action = "index.html"
+    document.getElementsByTagName('form')[0].action = "index.html";
   } else{
     document.querySelector("#credit-card").classList.add("is-hidden");
   }
   //paypal
   if (currentPaymentValue == "paypal") {
     document.querySelector("#paypal").classList.remove("is-hidden");
-    document.getElementsByTagName('form')[0].action = "https://www.paypal.com/"
+    document.getElementsByTagName('form')[0].action = "https://www.paypal.com/";
   } else{
     document.querySelector("#paypal").classList.add("is-hidden");
   }
     //bitcoin
   if (currentPaymentValue == "bitcoin") {
     document.querySelector("#bitcoin").classList.remove("is-hidden");
-    document.getElementsByTagName('form')[0].action = "https://www.bitcoin.com/"
+    document.getElementsByTagName('form')[0].action = "https://www.bitcoin.com/";
   } else{
     document.querySelector("#bitcoin").classList.add("is-hidden");
   }
-}
+};
 //check if required fields are blank
 var checkForBlanks = function(){
   var blank = false;
   //if name blank, set blank to true and show error
   var name = document.querySelector('#name');
-  if (name.value == ""){
+  if (name.value === ""){
     blank = true;
     name.classList.add("error");
     name.insertAdjacentHTML('afterend', blankError);
   }
   //if email blank, set blank to true and show error
   var email = document.querySelector('#mail');
-  if (email.value == ""){
+  if (email.value === ""){
     blank = true;
     email.classList.add("error");
     email.insertAdjacentHTML('afterend', blankError);
@@ -179,7 +179,7 @@ var checkForBlanks = function(){
   var regBlank = false;
   //loop through all inputs
   for(var i=0;i<regOptions.length;i++){
-    var inputChecked = regOptions[0].querySelector("input").checked
+    var inputChecked = regOptions[0].querySelector("input").checked;
     if (inputChecked){
       regBlank = false;
       break;
@@ -196,26 +196,26 @@ var checkForBlanks = function(){
   //if credit card selected and blank, set blank to true and show error
   if (paymentSelect.value == "credit card"){
     var cc = document.querySelector("#cc-num");
-    if (cc.value == ""){
+    if (cc.value === ""){
       blank = true;
       cc.classList.add("error");
       cc.insertAdjacentHTML('afterend', blankError);
     }
     var zipcode = document.querySelector("#zip");
-    if (zipcode.value == ""){
+    if (zipcode.value === ""){
       blank = true;
       zipcode.classList.add("error");
       zipcode.insertAdjacentHTML('afterend', blankError);
     } 
     var cvv =  document.querySelector("#cvv");
-    if (cvv.value == ""){
+    if (cvv.value === ""){
       blank = true;
       cvv.classList.add("error");
       cvv.insertAdjacentHTML('afterend', blankError);
     } 
   }
   return blank;
-}
+};
 var emailValidation = function() {
     var emailInput = document.getElementById('mail');
     var blank = true;
@@ -231,7 +231,7 @@ var emailValidation = function() {
       blank = false;
       return blank;
     }
-}
+};
 var realTimeEmailValidation = function() {
   var emailInput = document.getElementById('mail');
   if(
@@ -240,7 +240,7 @@ emailInput.nextSibling.classList && emailInput.nextSibling.classList.contains("e
   }
   if (!emailInput.value.includes('@') || !emailInput.value.includes('.')) {
     emailInput.classList.add("inline-error");
-    emailInput.insertAdjacentHTML('afterend', emailError)
+    emailInput.insertAdjacentHTML('afterend', emailError);
   } else {
     emailInput.classList.remove("inline-error");
   }
@@ -252,11 +252,11 @@ var realTimeCcValidation = function(){
   }
   if (cc.value.length < 13 || cc.value.length > 16) {
     cc.classList.add("inline-error");
-    cc.insertAdjacentHTML('afterend', creditError)  
+    cc.insertAdjacentHTML('afterend', creditError); 
   } else {
     cc.classList.remove("inline-error");
   }
-}
+};
 var realTimeZipValidation = function(){
   var zipcode = document.getElementById('zip');
   if(zipcode.nextSibling){
@@ -264,11 +264,11 @@ var realTimeZipValidation = function(){
   }
   if (zipcode.value.length !== 5) {
     zipcode.classList.add("inline-error");
-    zipcode.insertAdjacentHTML('afterend', zipcodeError)  
+    zipcode.insertAdjacentHTML('afterend', zipcodeError);
   } else {
     zipcode.classList.remove("inline-error");
   }
-}
+};
 var realTimeCvvValidation = function(){
   var cvv = document.getElementById('cvv');
   if(cvv.nextSibling){
