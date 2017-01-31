@@ -216,22 +216,6 @@ var checkForBlanks = function(){
   }
   return blank;
 };
-var emailValidation = function() {
-    var emailInput = document.getElementById('mail');
-    var blank = true;
-    if (emailInput.value === "") {
-      emailInput.classList.add("error");
-      emailInput.insertAdjacentHTML('afterend', blankError);
-      return blank;
-    } else if (!emailInput.value.includes('@') || !emailInput.value.includes('.')) {
-      emailInput.classList.add("error");
-      emailInput.insertAdjacentHTML('afterend', emailError);
-      return blank;
-    } else {
-      blank = false;
-      return blank;
-    }
-};
 var realTimeEmailValidation = function() {
   var emailInput = document.getElementById('mail');
   if(
@@ -276,18 +260,18 @@ var realTimeCvvValidation = function(){
   }
   if (cvv.value.length !== 3) {
     cvv.classList.add("inline-error");
-    cvv.insertAdjacentHTML('afterend', cvvError)  
+    cvv.insertAdjacentHTML('afterend', cvvError);
   } else {
     cvv.classList.remove("inline-error");
   }
-}
+};
 //Remove blank error if user types
 var blankCheck = function(field){
   if(!(field.value === "") && field.classList.contains("error")){
     field.classList.remove("error");
     field.parentNode.removeChild(field.nextSibling);
   }
-}
+};
 /* ================================= 
 Event listeners
 ==================================== */
@@ -360,7 +344,7 @@ Setup on-load
 //focus on first field
 window.onload = function(){
  document.querySelector('form').getElementsByTagName('input')[0].focus(); 
-}
+};
 //hide color dropdown until design is chosen
 colorSection.classList.add('is-hidden');
 //Hide 'other' field
